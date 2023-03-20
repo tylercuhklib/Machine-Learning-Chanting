@@ -1,10 +1,10 @@
-
-# <img src="icon.png" align="left" height="130"/> A Python library for audio feature extraction, classification, segmentation and applications
-
 *This is general info. Click [here](https://github.com/tyiannak/pyAudioAnalysis/wiki) for the complete wiki and [here](https://hackernoon.com/audio-handling-basics-how-to-process-audio-files-using-python-cli-jo283u3y) for a more generic intro to audio data handling*
 
-## Classification of Cantonese Chanting by Machine Learning.
-This project is based on the project「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」
+# Classification of Cantonese Chanting by Machine Learning.
+This project is based on the project「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」 
+
+The goal of this project is to develop a quick filter tool to identify the chanting activities out from a long time recording.
+By using the module pyAudioAnalysis, it is possible to identify speech and chanting by the machine learning method.
 
 ## Data Collection
  * The data are mainly from 「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」.  
@@ -15,8 +15,15 @@ This project is based on the project「[二十世紀香港粵語吟誦典藏](ht
  * All mp3 convected to wav
  * Sound level to -14 dbFS
  * Denoise is required for better quailty
- 
+
 ## Quickstart
+ * Clone the source of this library: `git clone https://github.com/tyiannak/pyAudioAnalysis.git`
+ * Install dependencies: `pip install -r ./requirements.txt `
+ * Install using pip: `pip install -e .`
+
+```python
+python predict_result.py
+```
 
 ## News
  * [2022-01-01] If you are not interested in training audio models from your own data, you can check the [Deep Audio API](https://labs-repos.iit.demokritos.gr/MagCIL/deep_audio_api.html), were you can directly send audio data and receive predictions with regards to the respective audio content (speech vs silence, musical genre, speaker gender, etc). 
@@ -34,10 +41,7 @@ pyAudioAnalysis is a Python library covering a wide range of audio analysis task
  * Train and use *audio regression* models (example application: emotion recognition)
  * Apply dimensionality reduction to *visualize* audio data and content similarities
 
-## Installation
- * Clone the source of this library: `git clone https://github.com/tyiannak/pyAudioAnalysis.git`
- * Install dependencies: `pip install -r ./requirements.txt `
- * Install using pip: `pip install -e .`
+
 
 ## An audio classification example
 > More examples and detailed tutorials can be found [at the wiki](https://github.com/tyiannak/pyAudioAnalysis/wiki)

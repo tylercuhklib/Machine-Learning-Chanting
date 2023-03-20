@@ -26,8 +26,8 @@ def chanting_predict():
     # generate the segmentation result on the testing data
     # preprocess_dir(dir+"/testing_canton/", dir+"/testing_canton/processed/", file_type='wav')
     generate_segments_and_save(model_name, model_type, 
-                                soureFolder=dir+"/example", 
-                                targetFolder=dir+"/example",
+                                soureFolder=dir+"/test", 
+                                targetFolder=dir+"/test",
                                 filetype='txt',filter=True)
 
 if __name__ == "__main__":
