@@ -1,0 +1,6 @@
+*~
+*.pyc
+*.npy
+.idea
+audio
+raw_audio
