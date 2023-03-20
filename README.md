@@ -4,7 +4,7 @@
 This project is based on the project「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」 
 
 The goal of this project is to develop a quick filter tool to identify the chanting activities out from a long time recording.
-By using the module pyAudioAnalysis, it is possible to identify speech and chanting by the machine learning method.
+By using the module pyAudioAnalysis(https://github.com/tyiannak/pyAudioAnalysis.git), it is possible to identify speech and chanting by the machine learning method.
 
 ## Data Collection
  * The data are mainly from 「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」.  
@@ -17,20 +17,19 @@ By using the module pyAudioAnalysis, it is possible to identify speech and chant
  * Denoise is required for better quailty
 
 ## Quickstart
- * Clone the source of this library: `git clone https://github.com/tyiannak/pyAudioAnalysis.git`
- * Install dependencies: `pip install -r ./requirements.txt `
- * Install using pip: `pip install -e .`
+ * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`
+ * Open terminal and cd to the project's file path, e.g.
+ ```
+ cd C:\Users\Users\Documents\Machine-Learning-Chanting
+ ```
+ * Run the following in terminal:
+ ```python
+ pip install -r ./requirements.txt 
+ python predict_result.py
+ ```
 
-```python
-python predict_result.py
-```
 
-## News
- * [2022-01-01] If you are not interested in training audio models from your own data, you can check the [Deep Audio API](https://labs-repos.iit.demokritos.gr/MagCIL/deep_audio_api.html), were you can directly send audio data and receive predictions with regards to the respective audio content (speech vs silence, musical genre, speaker gender, etc). 
- * [2021-08-06] [deep-audio-features](https://github.com/tyiannak/deep_audio_features) deep audio classification and feature extraction using CNNs and Pytorch 
- * Check out [paura](https://github.com/tyiannak/paura) a Python script for realtime recording and analysis of audio data
-
-## General
+## About pyAudioAnalysis
 pyAudioAnalysis is a Python library covering a wide range of audio analysis tasks. Through pyAudioAnalysis you can:
  * Extract audio *features* and representations (e.g. mfccs, spectrogram, chromagram)
  * *Train*, parameter tune and *evaluate* classifiers of audio segments
@@ -41,23 +40,6 @@ pyAudioAnalysis is a Python library covering a wide range of audio analysis task
  * Train and use *audio regression* models (example application: emotion recognition)
  * Apply dimensionality reduction to *visualize* audio data and content similarities
 
-
-
-## An audio classification example
-> More examples and detailed tutorials can be found [at the wiki](https://github.com/tyiannak/pyAudioAnalysis/wiki)
-
-pyAudioAnalysis provides easy-to-call wrappers to execute audio analysis tasks. Eg, this code first trains an audio segment classifier, given a set of WAV files stored in folders (each folder representing a different class) and then the trained classifier is used to classify an unknown audio WAV file
-
-```python
-from pyAudioAnalysis import audioTrainTest as aT
-aT.extract_features_and_train(["classifierData/music","classifierData/speech"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "svm", "svmSMtemp", False)
-aT.file_classification("data/doremi.wav", "svmSMtemp","svm")
-```
-
->Result:
-(0.0, array([ 0.90156761,  0.09843239]), ['music', 'speech'])
-
-In addition, command-line support is provided for all functionalities. E.g. the following command extracts the spectrogram of an audio signal stored in a WAV file: `python audioAnalysis.py fileSpectrogram -i data/doremi.wav`
 
 ## Further reading
 
