@@ -1,5 +1,4 @@
 from utils import generate_segments_and_save
-# from preprocessing import folderAnnotation2folders
 from preprocessing import preprocess_dir
 import functools
 import time
@@ -17,7 +16,6 @@ def timer(func):
 
 @timer
 def chanting_predict():
-    # dir = r"C:\Users\dslab\Documents\JohnYeung\lecture-chanting-segmentation\Tyler"
     dir = './audio'
     model_dir = './model'
     model_type = 'svm' # support vector machine
