@@ -6,27 +6,33 @@ This project is based on the project「[二十世紀香港粵語吟誦典藏](ht
 The goal of this project is to develop a quick filter tool to identify the chanting activities out from a long time recording.
 By using the module pyAudioAnalysis(https://github.com/tyiannak/pyAudioAnalysis.git), it is possible to identify speech and chanting by the machine learning method.
 
+## Quickstart
+ * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`
+ * Place your audio files into folder "/audio/test"
+ * Open terminal and cd to the project's file path, e.g.
+ ```
+ cd C:\Users\Users\Documents\Machine-Learning-Chanting
+ ```
+ * Use our trained svm model(/model) to predict the result. Run the following in terminal:
+ ```python
+ pip install -r ./requirements.txt 
+ python predict_result.py
+ ```
+ * The default output file is txt format, which can be imported as label by Audacity. It contains columns of the start time, end time and label(show "Chanting" only for convenience)
+
 ## Data Collection
- * The data are mainly from 「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」.  
- * To download the mp3 file:
- use getaudio.py and urls.txt
+ * The data are mainly from 「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」. Save the urls to urls.txt
+ * To download the mp3 file:`python getaudio.py`
 
 ## Data Preprocessing
  * All mp3 convected to wav
  * Sound level to -14 dbFS
  * Denoise is required for better quailty
+ * For each recording, prepare the segments file for training use
 
-## Quickstart
- * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`
- * Open terminal and cd to the project's file path, e.g.
- ```
- cd C:\Users\Users\Documents\Machine-Learning-Chanting
- ```
- * Run the following in terminal:
- ```python
- pip install -r ./requirements.txt 
- python predict_result.py
- ```
+## Training of the model
+
+
 
 
 ## About pyAudioAnalysis
@@ -63,9 +69,4 @@ Apart from this README file, to bettern understand how to use this library one s
 
 For Matlab-related audio analysis material check  [this book](http://www.amazon.com/Introduction-Audio-Analysis-MATLAB%C2%AE-Approach/dp/0080993885).
 
-## Author
-<img src="https://tyiannak.github.io/files/3.JPG" align="left" height="100"/>
-
-[Theodoros Giannakopoulos](https://tyiannak.github.io),
-Principal Researcher of Multimodal Machine Learning at the [Multimedia Analysis Group of the Computational Intelligence Lab (MagCIL)](https://labs-repos.iit.demokritos.gr/MagCIL/index.html) of the Institute of Informatics and Telecommunications, of the National Center for Scientific Research "Demokritos"
 
