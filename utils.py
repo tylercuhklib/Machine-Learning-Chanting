@@ -1,5 +1,6 @@
 """
 Created by John Yeung (cfyeung2357@gmail.com)
+Edited by Tyler Wan (tylerwan@cuhk.edu.hk)
 
 utils file for generating segmentation results using a pretrain model, and save the results to a targetFolder.
 
@@ -14,6 +15,19 @@ import glob
 from typing import List
 import xlsxwriter
 import csv
+import functools
+import time
+
+def timer(func):
+    @functools.wraps(func)
+    def wrapper_timer(*args, **kwargs):
+        start_time = time.perf_counter()
+        value = func(*args, **kwargs)
+        end_time = time.perf_counter()
+        run_time = end_time - start_time
+        print(f"Finished {func.__name__!r} in {run_time:.4f} secs")
+        return value
+    return wrapper_timer
 
 def generate_segments_and_save(modelName: str, modelType: str, soureFolder: str, targetFolder: str, filetype: str,filter: bool=False):
     """generate segments for all files in the source folder, and save to the target folder

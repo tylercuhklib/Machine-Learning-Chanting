@@ -1,14 +1,17 @@
-*This is general info. Click [here](https://github.com/tyiannak/pyAudioAnalysis/wiki) for the complete wiki and [here](https://hackernoon.com/audio-handling-basics-how-to-process-audio-files-using-python-cli-jo283u3y) for a more generic intro to audio data handling*
+This is based on the project ["Archive of 20th Century Cantonese Chanting in Hong Kong"「二十世紀香港粵語吟誦典藏」](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)
 
 # Classification of Cantonese Chanting by Machine Learning.
-This project is based on the project「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」 
+Cantonese Chanting is a traditional Chinese scholarly practice of reading, composing, and teaching classical poetry and prose in a specific melodic style. It is characterized by its melodic nature and room for improvisation, with various schools formed by dialects, lineages, and personal preferences. The art of chanting is gradually fading, as the elderly who once learned in private schools pass away, making the preservation of this artform urgent.
 
-The goal of this project is to develop a quick filter tool to identify the chanting activities out from a long time recording.
-By using the module pyAudioAnalysis(https://github.com/tyiannak/pyAudioAnalysis.git), it is possible to identify speech and chanting by the machine learning method.
+Since many recordings are extracted from class sessions, with chanting intermingled with teaching. Researcher have to find out the chanting activities within these hours long recordings. The works could be time consuming. 
+
+By using the python based module [pyAudioAnalysis](https://github.com/tyiannak/pyAudioAnalysis.git), it is possible to identify speech and chanting by the machine learning method. This tool as a quick filter to identify if the chanting exists and to label the period in the audio.
+
+As one of the default output file is txt, which include the labels of "start time", "end time" and "class". This is recommended to use [Audacity](https://www.audacityteam.org/) to import the txt for audio editing.
 
 ## Quickstart
  * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`
- * Place your audio files into folder "/audio/test"
+ * Copy your test audio(in wav format) into folder "/audio/test/source"
  * Open terminal and cd to the project's file path, e.g.
  ```
  cd C:\Users\Users\Documents\Machine-Learning-Chanting
@@ -18,17 +21,21 @@ By using the module pyAudioAnalysis(https://github.com/tyiannak/pyAudioAnalysis.
  pip install -r ./requirements.txt 
  python predict_result.py
  ```
- * The default output file is txt format, which can be imported as label by Audacity. It contains columns of the start time, end time and label(show "Chanting" only for convenience)
+ * The default output file is in txt format, which can be imported as label in Audacity. It contains columns of the start time, end time and label(show "Chanting" only for convenience). The result file saved in folder "/audio/test/result"
+ * Open Audacity and import the audio, and the label file for further editing.
+ * Export the edited label file and use it to extract the chanting section from the original file. 
+ ```
+ python extract_chanting.py source_folder target_folder
+ ```
 
 ## Data Collection
  * The data are mainly from 「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」. Save the urls to urls.txt
  * To download the mp3 file:`python getaudio.py`
 
 ## Data Preprocessing
- * All mp3 convected to wav
- * Sound level to -14 dbFS
- * Denoise is required for better quailty
- * For each recording, prepare the segments file for training use
+ * All .mp3 file have to be convected to .wav file. 
+ * Audios are denoised and increased the level
+ * Audios are segmented to three classes: Chanting, Speech, Silence. 
 
 ## Training of the model
 
@@ -46,6 +53,7 @@ pyAudioAnalysis is a Python library covering a wide range of audio analysis task
  * Train and use *audio regression* models (example application: emotion recognition)
  * Apply dimensionality reduction to *visualize* audio data and content similarities
 
+*This is general info. Click [here](https://github.com/tyiannak/pyAudioAnalysis/wiki) for the complete wiki and [here](https://hackernoon.com/audio-handling-basics-how-to-process-audio-files-using-python-cli-jo283u3y) for a more generic intro to audio data handling*
 
 ## Further reading
 

@@ -112,7 +112,7 @@ def matchTargetAmplitude(sound, target_dBFS): # not used
     change_in_dBFS = target_dBFS - sound.max_dBFS
     return sound.apply_gain(change_in_dBFS)
 
-def denoise(data: np.ndarray, samplingRate: int, propDecrease=0.9, freqMaskSmoothHz=100)->np.ndarray:
+def denoise(data: np.ndarray, samplingRate: int, propDecrease=0.9, freqMaskSmoothHz=120)->np.ndarray:
     """denoise the audio data
 
     Args:
@@ -128,7 +128,7 @@ def denoise(data: np.ndarray, samplingRate: int, propDecrease=0.9, freqMaskSmoot
     reduced_noise = nr.reduce_noise(y=data, sr=samplingRate, prop_decrease=propDecrease, freq_mask_smooth_hz=freqMaskSmoothHz)
     return reduced_noise
 
-def denoiseMP3(data, samplingRate: int, propDecrease=0.8, freqMaskSmoothHz=100):
+def denoiseMP3(data, samplingRate: int, propDecrease=0.8, freqMaskSmoothHz=120):
     # np_data = np.array(data.get_array_of_samples())
     # np_data = np_data[::data.channels]
     reduced_noise = nr.reduce_noise(y=data, sr=samplingRate, prop_decrease=propDecrease, freq_mask_smooth_hz=freqMaskSmoothHz)
@@ -136,7 +136,7 @@ def denoiseMP3(data, samplingRate: int, propDecrease=0.8, freqMaskSmoothHz=100):
     
 
 
-def setVolume(data: np.ndarray, frameRate: int, targetVolume: float = -12):
+def setVolume(data: np.ndarray, frameRate: int, targetVolume: float = -14):
     """set the data's volume to the target Volume (in dB)
 
     Args:
@@ -158,7 +158,7 @@ def setVolume(data: np.ndarray, frameRate: int, targetVolume: float = -12):
         normalized_sound = sound
     return normalized_sound
 
-def setVolumeMP3(sound: np.ndarray, frameRate: int, targetVolume: float = -12):
+def setVolumeMP3(sound: np.ndarray, frameRate: int, targetVolume: float = -14):
     """set the data's volume to the target Volume (in dB)
 
     Args:
@@ -173,7 +173,7 @@ def setVolumeMP3(sound: np.ndarray, frameRate: int, targetVolume: float = -12):
     normalized_sound = sound - sound.dBFS
     # print(normalized_sound.dBFS)
     normalized_sound = normalized_sound + (targetVolume - normalized_sound.dBFS)
-    # print(normalized_sound.dBFS)
+    print(normalized_sound.dBFS)
 
     return normalized_sound
 
@@ -276,15 +276,10 @@ def preprocess_dir(sourceFolder: str, targetFolder: str, file_type: str='mp3'):
             # preprocessingPipelineMP3toWav(sourceFolder=sourceFolder, targetFolder=targetFolder, fileName=file)
 
 def main(sourceFolder, targetFolder, filetype):
-    dir = r"C:\Users\dslab\Documents\JohnYeung\lecture-chanting-segmentation\Tyler"
     # preprocess the training data
     # print(sourceFolder)
-    # preprocess_dir(sourceFolder, targetFolder,filetype)
-    # preprocess_dir(dir+'/testing_canton/', dir+ '/testing_canton/test/','wav')
-    # # cut the source files in a folder according to their segments file
- 
-    # # if os.path.exists(os.path.join(dir, processed_data)):
-    # folderAnnotation2folders(dir+"/testing_canton", dir+"/training_canton_v4_2019")   
+    preprocess_dir(sourceFolder, sourceFolder, filetype)
+    # cut the source files in a folder according to their segments file
     folderAnnotation2folders(sourceFolder, targetFolder) 
 
 if __name__ == "__main__":
