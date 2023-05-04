@@ -7,40 +7,63 @@ Since many recordings are extracted from class sessions, with chanting interming
 
 By using the python based module [pyAudioAnalysis](https://github.com/tyiannak/pyAudioAnalysis.git), it is possible to identify speech and chanting by the machine learning method. This tool as a quick filter to identify if the chanting exists and to label the period in the audio.
 
-As one of the default output file is txt, which include the labels of "start time", "end time" and "class". This is recommended to use [Audacity](https://www.audacityteam.org/) to import the txt for audio editing.
+As one of the default output file is txt, which include the labels of "start time", "end time" and "class". This is recommended to use [Audacity](https://www.audacityteam.org/) to import the txt for further audio editing.
 
 ## Quickstart
  * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`
- * Copy your test audio(in wav format) into folder "/audio/test/source"
+ * Copy your test audio(in wav format) into folder "audio/test/source"
  * Open terminal and cd to the project's file path, e.g.
  ```
  cd C:\Users\Users\Documents\Machine-Learning-Chanting
  ```
- * Use our trained svm model(/model) to predict the result. Run the following in terminal:
+ * Use the trained SVM model in folder "model" to predict the result. Run the following in terminal:
  ```python
  pip install -r ./requirements.txt 
  python predict_result.py
  ```
- * The default output file is in txt format, which can be imported as label in Audacity. It contains columns of the start time, end time and label(show "Chanting" only for convenience). The result file saved in folder "/audio/test/result"
- * Open Audacity and import the audio, and the label file for further editing.
- * Export the edited label file and use it to extract the chanting section from the original file. 
+ * The result .txt file will be saved in the folder "audio/test/result". It contains the start time, end time and label(show "Chanting" only for convenience because we only want to extract the chanting section from the source file). 
+ * Open Audacity and then import the audio and the label file for further editing. We need to adjust the actual start/end time for 
+ * Export the edited label file as .segments file and save it to the source wav file. It will be used to extract the chanting section from the original file.
+ * To extract chanting from the source audio:
+
  ```
  python extract_chanting.py source_folder target_folder
+ #example
+ python extract_chanting.py audio/test/source audio/result_final
  ```
+ * All chanting audio will be in the folder /audio/result_final
 
-## Data Collection
+## Machine Learning
+### Data Collection
  * The data are mainly from 「[二十世紀香港粵語吟誦典藏](https://dsprojects.lib.cuhk.edu.hk/en/projects/20th-cantonese-poetry-chanting/home/)」. Save the urls to urls.txt
  * To download the mp3 file:`python getaudio.py`
 
-## Data Preprocessing
+### Data Preprocessing
  * All .mp3 file have to be convected to .wav file. 
- * Audios are denoised and increased the level
- * Audios are segmented to three classes: Chanting, Speech, Silence. 
+ * Denoised and normalized volume.
+ * Audios file are segmented and divided into three classes: Chanting, Speech, Silence.
 
-## Training of the model
+### Training of the model
+ * With the function of pyAudioAnalysis, the segment-based audios are used for feature extraction
+   and classifier training
+ * SVM method are used as its preformeance are better in our case.
+ * The function also include the hyperparameter tuning and evaluation.
+ ```
+ python train_the_model.py
+ ```
+For our trained model, 
+Confusion Matrix:
+        Cha     Spe     Sil
+Cha     35.39   2.39    0.00
+Spe     2.67    47.29   1.16
+Sil     0.16    0.46    10.49
+(Cha for Chanting, Spe for Speaking, Sil for Silence)
 
+Best macro f1: 92.9
+Best macro f1: std 3.9
+Selected params: 0.10000
 
-
+The Classifier with parameter C = 0.1 has the best f1 score of 92.9%
 
 ## About pyAudioAnalysis
 pyAudioAnalysis is a Python library covering a wide range of audio analysis tasks. Through pyAudioAnalysis you can:

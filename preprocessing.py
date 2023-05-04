@@ -207,10 +207,10 @@ def preprocessingPipeline(sourceFolder, targetFolder, fileName): # from wav file
     rate = data.frame_rate
     np_data = np.array(data.get_array_of_samples())
     np_data = np_data[::data.channels]
-    np_data = denoiseMP3(np_data, rate)    
+    # np_data = denoiseMP3(np_data, rate)    
     byte_data = setVolumeMP3(np_data, rate)
     np_data = np.array(byte_data.get_array_of_samples())
-    wavfile.write(os.path.join(targetFolder, fileName.split(".")[0]+".wav"), rate, np_data)
+    wavfile.write(os.path.join(targetFolder, fileName.split(".")[0]+"_14dbfs"+".wav"), rate, np_data)
     
 def preprocessingPipelineMP3(sourceFolder: str, targetFolder: str, fileName: str): # from map file
     """Process the data using mp3 source files, called by #?def preprocess_dir()
@@ -275,14 +275,15 @@ def preprocess_dir(sourceFolder: str, targetFolder: str, file_type: str='mp3'):
             preprocessingPipelineMP3(sourceFolder=sourceFolder, targetFolder=targetFolder, fileName=file)
             # preprocessingPipelineMP3toWav(sourceFolder=sourceFolder, targetFolder=targetFolder, fileName=file)
 
-def main(sourceFolder, targetFolder, filetype):
+def main(sourceFolder, targetFolder, filetype, segment= False):
     # preprocess the training data
     # print(sourceFolder)
     preprocess_dir(sourceFolder, sourceFolder, filetype)
     # cut the source files in a folder according to their segments file
-    folderAnnotation2folders(sourceFolder, targetFolder) 
+    if segment == True:
+        folderAnnotation2folders(sourceFolder, targetFolder) 
 
 if __name__ == "__main__":
-    main(sys.argv[1],sys.argv[2],sys.argv[3])
+    main(sys.argv[1],sys.argv[2],sys.argv[3], sys.argv[4])
 
  
