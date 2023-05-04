@@ -51,17 +51,17 @@ As one of the default output file is txt, which include the labels of "start tim
  ```
  python train_the_model.py
  ```
-For our trained model, 
-Confusion Matrix:
+ For our trained model, 
+ Confusion Matrix:
 |  | Chanting | Speaking | Silence |
 |---|---|---|---|
 | Chanting | 35.39 | 2.39 | 0.00 |
 | Speaking | 2.67 | 47.29 | 1.16 |
 | Silence | 0.16 | 0.46 | 10.49 |
 
-Best macro f1: 92.9
-Best macro f1: std 3.9
-Selected params: 0.10000
+ Best macro f1: 92.9
+ Best macro f1: std 3.9
+ Selected params: 0.10000
 
 The Classifier with parameter C = 0.1 has the best f1 score of 92.9%
 
