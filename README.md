@@ -53,10 +53,10 @@ As one of the default output file is txt, which include the labels of "start tim
  ```
 For our trained model, 
 Confusion Matrix:
-        Cha     Spe     Sil
-Cha     35.39   2.39    0.00
-Spe     2.67    47.29   1.16
-Sil     0.16    0.46    10.49
+|          | Chanting | Speaking | Silence |
+| Chanting | 35.39    | 2.39     | 0.00    |
+| Speaking | 2.67     | 47.29    | 1.16    |
+| Silence  | 0.16     | 0.46     | 10.49   |
 (Cha for Chanting, Spe for Speaking, Sil for Silence)
 
 Best macro f1: 92.9
