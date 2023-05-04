@@ -59,9 +59,9 @@ For our trained model, the confusion Matrix:
 | Speaking | 2.67 | 47.29 | 1.16 |
 | Silence | 0.16 | 0.46 | 10.49 |
 
-Best macro f1: 92.9
-Best macro f1: std 3.9 
-Selected params: 0.10000 
+- Best macro f1: 92.9
+- Best macro f1: std 3.9 
+- Selected params: 0.10000 
 
 The Classifier with parameter C = 0.1 has the best f1 score of 92.9%
 
