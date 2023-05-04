@@ -10,7 +10,8 @@ By using the python based module [pyAudioAnalysis](https://github.com/tyiannak/p
 As one of the default output file is txt, which include the labels of "start time", "end time" and "class". This is recommended to use [Audacity](https://www.audacityteam.org/) to import the txt for further audio editing.
 
 ## Quickstart
- * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`
+ * Clone the source of this library: `git clone https://github.com/tylercuhklib/Machine-Learning-Chanting.git`,
+   or directly download ZIP from this page.
  * Copy your test audio(in wav format) into folder "audio/test/source"
  * Open terminal and cd to the project's file path, e.g.
  ```
@@ -51,17 +52,16 @@ As one of the default output file is txt, which include the labels of "start tim
  ```
  python train_the_model.py
  ```
- For our trained model, 
- Confusion Matrix:
+For our trained model, the confusion Matrix:
 |  | Chanting | Speaking | Silence |
 |---|---|---|---|
 | Chanting | 35.39 | 2.39 | 0.00 |
 | Speaking | 2.67 | 47.29 | 1.16 |
 | Silence | 0.16 | 0.46 | 10.49 |
 
- Best macro f1: 92.9
- Best macro f1: std 3.9
- Selected params: 0.10000
+Best macro f1: 92.9
+Best macro f1: std 3.9 
+Selected params: 0.10000 
 
 The Classifier with parameter C = 0.1 has the best f1 score of 92.9%
 
