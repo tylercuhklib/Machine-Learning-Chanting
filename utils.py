@@ -18,6 +18,24 @@ import csv
 import functools
 import time
 
+def convert_dir_other_to_wav(source_folder, target_folder):
+    if not os.path.exists(target_folder):
+        os.mkdir(target_folder)
+        
+    for filename in glob.glob(os.path.join(source_folder,'*','*.mp3')):
+    # for filename in os.listdir(audio_folder):
+        ext = filename.split('.')[-1]
+        if ext != 'wav':
+            
+            output_filename = filename.split('\\')[-1]
+            output_filename = output_filename.replace('.mp3','.wav')
+            print(filename)
+            print(output_filename)
+            os.system("ffmpeg -loglevel level+warning -i {0} -vn {1}".format(filename, os.path.join(target_folder,output_filename)))
+        else:
+            continue
+    print("Convected all non-WAV file to WAV")
+
 def timer(func):
     @functools.wraps(func)
     def wrapper_timer(*args, **kwargs):
@@ -38,14 +56,20 @@ def generate_segments_and_save(modelName: str, modelType: str, soureFolder: str,
         soureFolder (str): name of the folder containing the audio files to be segmented
         targetFolder (str): location of the file to store the generated segments
         filetype: save result as 'wav','xlsx' or 'txt'
-    """    
+    """ 
+    stat = []   
     if not os.path.exists(targetFolder):
         os.makedirs(targetFolder)
     for filename in glob.glob(soureFolder + '/*.wav'):
         
         file_name = re.split('[\\\\/.]', filename)[-2]
+        # check_txt_exist = file_name+'.txt'
+        # txt_path = os.path.join(targetFolder,check_txt_exist)
+        # if not os.path.exists(txt_path):
+
         gt_filename= soureFolder+ '\\' + file_name+".segments"
-        # print(file_name)
+        #     # print(file_name)
+        
         if not os.path.exists(os.path.join(targetFolder, file_name)): # skip if the file is already processed
             flagsInd, classesAll, acc, CM, segs, classes = aS.mid_term_file_classification_chanting(filename, 
                                                                                            modelName, 
@@ -53,10 +77,13 @@ def generate_segments_and_save(modelName: str, modelType: str, soureFolder: str,
             if filetype == 'wav':
                 _segments2wav(filename, segs, classes, classesAll, targetFolder)
             elif filetype == 'txt':
-                _segments2txt(filename, segs, classes, classesAll, targetFolder, filter)
+                prob = _segments2txt(filename, segs, classes, classesAll, targetFolder, filter)
             else:
                 _segments2xlsx(filename, segs, classes, classesAll, targetFolder)
             # aS.plot_segmentation_results = (flagsInd,flagsInd,classesAll,2)
+            
+            stat.append([file_name, prob])
+    probability_stat(stat)
 
 def _segments2wav(wavFile: str, segments: List[List[float]], classes: List[float], classesAll: List[str], folderPath: str):
     """save the generated segments into corresponding audio wav files, with 2 seconds append at start/end
@@ -168,6 +195,9 @@ def _segments2txt(wavFile: str, segments: List[List[float]], classes: List[float
     start_seconds = []
     end_seconds = []
     # print(segments)
+    chanting_time = 0
+    total_time = 0
+    total_time = segments[-1][1]
     if filter == False:
         for i, (seg,cls) in enumerate(zip(segments, classes)):
         # starting and ending time
@@ -183,20 +213,44 @@ def _segments2txt(wavFile: str, segments: List[List[float]], classes: List[float
             end_seconds.append(seg[1])
 
     if filter == True:
+
         for i, (seg,cls) in enumerate(zip(segments, classes)):
             duration = seg[1]-seg[0]
             classname = classesAll[int(cls)] #to get exact classname(Tyler)
             classname = re.split('\\/',classname)[-1]
             # if classname == 'Chanting':
-            if duration >=8 and classname == "Chanting":
+            if classname == "Chanting" and duration >=16:
+                # total_time += duration
                 classname_result.append(classname)
                 start_seconds.append(seg[0])
                 end_seconds.append(seg[1])
-        
+                chanting_time += duration
+    if total_time > 0:
+        prob_chanting = int(100*chanting_time / total_time)
+    else:
+        prob_chanting = int(0)
+
+    prob_chanting = str(prob_chanting)
     data = zip(start_seconds,end_seconds,classname_result)
-        
     with open(folderPath+'/'+file_name+'.txt', 'w',newline='') as file:
         writer = csv.writer(file, delimiter='\t', lineterminator='\n')
         for row in data:
             writer.writerow(row)
+    return prob_chanting
 
+def probability_stat(stat):
+    # print(stat)
+    workbook = xlsxwriter.Workbook('./audio/test/result/prob_stat.xlsx')
+    worksheet = workbook.add_worksheet()
+    worksheet.write('A1', 'Filename')
+    worksheet.write('B1', 'Prob(Chanting)')
+    row = 1
+    col = 0
+    for filename, prob in stat:
+        worksheet.write(row, col, filename)
+        worksheet.write(row, col+1, prob)
+        row += 1
+    workbook.close()
+
+
+    

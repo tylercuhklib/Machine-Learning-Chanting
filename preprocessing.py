@@ -76,6 +76,8 @@ def annotation2folders(wavFile: str, csvFile: str, folderPath: str):
         
         Input CSV file must be of the format <T1>\t<T2>\t<Label>
     """
+    print(wavFile)
+    print(csvFile)
     [Fs, x] = audioBasicIO.read_audio_file(wavFile)
     with open(csvFile, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter='\t', quotechar='|')
@@ -100,10 +102,11 @@ def folderAnnotation2folders(sourceFolder, targetFolder):
         - sourceFolder:    path to Folder of all source audio file and .segments file
         - targetFolder:    path to Folder where user want to store the class folders
     """
+    print(sourceFolder)
     for fileName in glob.glob(os.path.join(sourceFolder, '*.segments')):
-        # print(fileName)
+        print(fileName)
         fileName = fileName.split('.')[0]
-        # print(fileName)
+        print(fileName)
         annotation2folders('%s.wav' % (fileName), '%s.segments' % (fileName), targetFolder)
         
         
@@ -275,15 +278,16 @@ def preprocess_dir(sourceFolder: str, targetFolder: str, file_type: str='mp3'):
             preprocessingPipelineMP3(sourceFolder=sourceFolder, targetFolder=targetFolder, fileName=file)
             # preprocessingPipelineMP3toWav(sourceFolder=sourceFolder, targetFolder=targetFolder, fileName=file)
 
-def main(sourceFolder, targetFolder, filetype, segment= False):
+def main(sourceFolder, processedFolder, targetFolder, filetype, segment= False):
     # preprocess the training data
     # print(sourceFolder)
-    preprocess_dir(sourceFolder, sourceFolder, filetype)
+    # preprocess_dir(sourceFolder, processedFolder, filetype)
     # cut the source files in a folder according to their segments file
-    if segment == True:
-        folderAnnotation2folders(sourceFolder, targetFolder) 
+    
+    if segment:
+        folderAnnotation2folders(processedFolder, targetFolder) 
 
 if __name__ == "__main__":
-    main(sys.argv[1],sys.argv[2],sys.argv[3], sys.argv[4])
+    main(sys.argv[1],sys.argv[2],sys.argv[3], sys.argv[4], sys.argv[5])
 
  

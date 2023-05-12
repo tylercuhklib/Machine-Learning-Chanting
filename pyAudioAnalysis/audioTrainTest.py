@@ -281,8 +281,8 @@ def extract_features_and_train(paths, mid_window, mid_step, short_window,
 
     # STEP B: classifier Evaluation and Parameter Selection:
     if classifier_type == "svm" or classifier_type == "svm_rbf":
-        # classifier_par = np.array([0.001, 0.01,  0.5, 1.0, 5.0, 10.0, 20.0])
-        classifier_par = np.array([0.05, 0.1, 0.15])
+        classifier_par = np.array([0.001, 0.01, 0.5, 1.0, 5.0, 10.0, 20.0])
+        # classifier_par = np.array([0.05, 0.1, 0.15])
     elif classifier_type == "randomforest":
         classifier_par = np.array([10, 25, 50, 100, 200, 500])
     elif classifier_type == "knn":
