@@ -10,13 +10,6 @@ model_dir = './model'
 model_type = 'svm' # support vector machine
 model_name = model_dir+"/svm_chanting_041_005005_f2_fine" #mid-widow = 4, mid step = 1
 
-# aT.extract_features_and_train([dir+r'\training_14dbfs\Chanting', 
-#                               dir+r'\training_14dbfs\Speech',
-#                               dir+r'\training_14dbfs\Silence'],
-#                               2, 1,
-#                               aT.shortTermWindow, 
-#                               aT.shortTermStep, model_type, model_name)
-
 aT.extract_features_and_train([dir+r'\training_mix\Chanting', 
                               dir+r'\training_mix\Speech',
                               dir+r'\training_mix\Silence'],

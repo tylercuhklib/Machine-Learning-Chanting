@@ -8,3 +8,7 @@ audio/test/temp
 audio/test/result/temp
 paper
 /model/performance
+
+train_the_model.py
+
+plot_energyspectrum.py
