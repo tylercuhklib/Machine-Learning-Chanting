@@ -18,6 +18,18 @@ import csv
 import functools
 import time
 
+import wave
+import contextlib
+
+def get_wave_duration(wavFile: str):
+    
+    with contextlib.closing(wave.open(wavFile,'r')) as f:
+        frames = f.getnframes()
+        rate = f.getframerate()
+        duration = frames / float(rate)
+        # print(duration)
+    return duration
+
 def convert_dir_other_to_wav(source_folder, target_folder):
     if not os.path.exists(target_folder):
         os.mkdir(target_folder)
@@ -78,12 +90,11 @@ def generate_segments_and_save(modelName: str, modelType: str, soureFolder: str,
                 _segments2wav(filename, segs, classes, classesAll, targetFolder)
             elif filetype == 'txt':
                 prob = _segments2txt(filename, segs, classes, classesAll, targetFolder, filter)
-            else:
                 _segments2xlsx(filename, segs, classes, classesAll, targetFolder)
             # aS.plot_segmentation_results = (flagsInd,flagsInd,classesAll,2)
             
-            stat.append([file_name, prob])
-    probability_stat(stat)
+    #         stat.append([file_name, prob])
+    # probability_stat(stat)
 
 def _segments2wav(wavFile: str, segments: List[List[float]], classes: List[float], classesAll: List[str], folderPath: str):
     """save the generated segments into corresponding audio wav files, with 2 seconds append at start/end
@@ -219,7 +230,7 @@ def _segments2txt(wavFile: str, segments: List[List[float]], classes: List[float
             classname = classesAll[int(cls)] #to get exact classname(Tyler)
             classname = re.split('\\/',classname)[-1]
             # if classname == 'Chanting':
-            if classname == "Chanting" and duration >=16:
+            if classname == "Chanting" and duration >=8:
                 # total_time += duration
                 classname_result.append(classname)
                 start_seconds.append(seg[0])
@@ -240,7 +251,9 @@ def _segments2txt(wavFile: str, segments: List[List[float]], classes: List[float
 
 def probability_stat(stat):
     # print(stat)
-    workbook = xlsxwriter.Workbook('./audio/test/result/prob_stat.xlsx')
+    # workbook_path = os.path.join(r'D:\pian\result', 'prob.xlsx')
+    workbook_path = os.path.join(r'C:\Users\dslab\Documents\Machine-Learning-Chanting\audio\test\result', 'prob.xlsx')
+    workbook = xlsxwriter.Workbook(workbook_path)
     worksheet = workbook.add_worksheet()
     worksheet.write('A1', 'Filename')
     worksheet.write('B1', 'Prob(Chanting)')

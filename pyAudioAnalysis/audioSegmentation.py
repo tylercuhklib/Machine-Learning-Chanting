@@ -216,35 +216,35 @@ def plot_segmentation_results(flags_ind, flags_ind_gt, class_names, mt_step,
         font = {'size': 10}
         plt.rc('font', **font)
 
-        fig = plt.figure()
-        ax1 = fig.add_subplot(211)
+        fig = plt.figure(figsize=(12,6), dpi=150)
+        ax1 = fig.add_subplot(111)
         ax1.set_yticks(np.array(range(len(class_names))))
         ax1.axis((0, duration, -1, len(class_names)))
         ax1.set_yticklabels(class_names)
         ax1.plot(np.array(range(len(flags_ind))) * mt_step +
-                 mt_step / 2.0, flags_ind)
+                 mt_step / 2.0, flags_ind, label= 'Prediction')
         if flags_ind_gt.shape[0] > 0:
             ax1.plot(np.array(range(len(flags_ind_gt))) * mt_step +
-                     mt_step / 2.0, flags_ind_gt + 0.05, '--r')
+                     mt_step / 2.0, flags_ind_gt + 0.05, '--r', label= 'Ground Truth')
         plt.xlabel("time (seconds)")
         if accuracy >= 0:
             plt.title('Accuracy = {0:.1f}%'.format(100.0 * accuracy))
 
-        ax2 = fig.add_subplot(223)
-        plt.title("Classes percentage durations")
-        ax2.axis((0, len(class_names) + 1, 0, 100))
-        ax2.set_xticks(np.array(range(len(class_names) + 1)))
-        ax2.set_xticklabels([" "] + class_names)
-        print(np.array(range(len(class_names))), percentages)
-        ax2.bar(np.array(range(len(class_names))) + 0.5, percentages)
+        # ax2 = fig.add_subplot(223)
+        # plt.title("Classes percentage durations")
+        # ax2.axis((0, len(class_names) + 1, 0, 100))
+        # ax2.set_xticks(np.array(range(len(class_names) + 1)))
+        # ax2.set_xticklabels([" "] + class_names)
+        # print(np.array(range(len(class_names))), percentages)
+        # ax2.bar(np.array(range(len(class_names))) + 0.5, percentages)
 
-        ax3 = fig.add_subplot(224)
-        plt.title("Segment average duration per class")
-        ax3.axis((0, len(class_names)+1, 0, av_durations.max()))
-        ax3.set_xticks(np.array(range(len(class_names) + 1)))
-        ax3.set_xticklabels([" "] + class_names)
-        ax3.bar(np.array(range(len(class_names))) + 0.5, av_durations)
-        fig.tight_layout()
+        # ax3 = fig.add_subplot(224)
+        # plt.title("Segment average duration per class")
+        # ax3.axis((0, len(class_names)+1, 0, av_durations.max()))
+        # ax3.set_xticks(np.array(range(len(class_names) + 1)))
+        # ax3.set_xticklabels([" "] + class_names)
+        # ax3.bar(np.array(range(len(class_names))) + 0.5, av_durations)
+        # fig.tight_layout()
         plt.show()
     return accuracy
 
@@ -682,14 +682,12 @@ def mid_term_file_classification_chanting(input_file, model_name, model_type,
 
     # convert fix-sized flags to segments and classes
     segs, classes = labels_to_segments(labels, mid_step)
-    if mid_step == 2:
+    print(mid_step)
+    if mid_step > 0:
         segs, classes = smooth_bumps(segs, classes, class_names, mid_step,3,"Chanting")
-        segs, classes = smooth_bumps(segs, classes, class_names, mid_step,1,"Speech")
-        segs, classes = smooth_bumps(segs, classes, class_names, mid_step,1,"Silence")
-    if mid_step == 1:
-        segs, classes = smooth_bumps(segs, classes, class_names, mid_step,5,"Chanting")
         segs, classes = smooth_bumps(segs, classes, class_names, mid_step,2,"Speech")
         segs, classes = smooth_bumps(segs, classes, class_names, mid_step,1,"Silence")
+        segs, classes = smooth_bumps(segs, classes, class_names, mid_step,3,"Chanting") 
     segs, classes = combine_class(segs, classes, class_names)
     newlabels, _ = segments_to_labels([x[0] for x in segs], [x[1] for x in segs], classes, mid_step)
     segs[-1][1] = len(signal) / float(sampling_rate)
@@ -1305,7 +1303,7 @@ def combine_class(segs, classes, classesAll):
     # print(new_classes)
     for j, (seg, cls) in enumerate(zip(segs, classes)):
         try:
-            if classesAll[int(classes[j-1])] == classesAll[int(classes[j])]:
+            if classesAll[int(classes[j-1])] == classesAll[int(classes[j])] or seg[1]-seg[0]<=2:
                         
                 new_segs_filter[-1][1] = seg[1]
             else:

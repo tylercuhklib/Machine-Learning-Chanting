@@ -19,7 +19,6 @@ As one of the default output file is txt, which include the labels of "start tim
  ```
  * Use the trained SVM model in folder "model" to predict the result. Run the following in terminal:
  ```python
- pip install -r ./requirements.txt 
  python predict_result.py
  ```
  * The result .txt file will be saved in the folder "audio/test/result". It contains the start time, end time and label(show "Chanting" only for convenience because we only want to extract the chanting section from the source file). 
@@ -55,15 +54,15 @@ As one of the default output file is txt, which include the labels of "start tim
 For our trained model, the confusion Matrix:
 |  | Chanting | Speaking | Silence |
 |---|---|---|---|
-| Chanting | 35.39 | 2.39 | 0.00 |
-| Speaking | 2.67 | 47.29 | 1.16 |
-| Silence | 0.16 | 0.46 | 10.49 |
+| Chanting | 32.84 | 3.37 | 0.09 |
+| Speaking | 3.25 | 47.25 | 0.74 |
+| Silence | 0.12 | 0.74 | 11.59 |
 
-- Best macro f1: 92.9
-- Best macro f1: std 3.9 
+- Best macro f1: 91.9
+- Best macro f1: std 1.9 
 - Selected params: 0.10000 
 
-The Classifier with parameter C = 0.1 has the best f1 score of 92.9%
+The Classifier with parameter C = 0.1 has the best f1 score of 91.9%
 
 ## About pyAudioAnalysis
 pyAudioAnalysis is a Python library covering a wide range of audio analysis tasks. Through pyAudioAnalysis you can:

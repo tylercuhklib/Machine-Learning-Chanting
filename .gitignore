@@ -4,4 +4,7 @@
 .idea
 training_audio
 raw_audio
+audio/test/temp
+audio/test/result/temp
+paper
 /model/performance

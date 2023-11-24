@@ -235,7 +235,7 @@ def train_random_forest_regression(features, labels, n_estimators):
 
 def extract_features_and_train(paths, mid_window, mid_step, short_window,
                                short_step, classifier_type, model_name,
-                               compute_beat=False, train_percentage=0.90,
+                               compute_beat=False, train_percentage=0.80,
                                dict_of_ids=None,
                                use_smote=False):
     """
@@ -281,8 +281,10 @@ def extract_features_and_train(paths, mid_window, mid_step, short_window,
 
     # STEP B: classifier Evaluation and Parameter Selection:
     if classifier_type == "svm" or classifier_type == "svm_rbf":
-        classifier_par = np.array([0.001, 0.01, 0.5, 1.0, 5.0, 10.0, 20.0])
-        # classifier_par = np.array([0.05, 0.1, 0.15])
+        # classifier_par = np.array([0.001, 0.01, 0.1, 0.5, 1, 5, 10, 20])
+        classifier_par = np.array([0.05, 0.075, 0.1, 0.2, 0.3, 0.4])
+        # classifier_par = np.array([4.5, 5, 5.5, 6, 6.5, 7, 8])
+        # classifier_par = np.array([6, 8, 10, 15, 20, 25])
     elif classifier_type == "randomforest":
         classifier_par = np.array([10, 25, 50, 100, 200, 500])
     elif classifier_type == "knn":
