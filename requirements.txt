@@ -5,7 +5,7 @@ numpy==1.20.3
 hmmlearn==0.2.5
 eyeD3==0.9.6
 pydub==0.25.1
-scikit_learn==0.24.2
+scikit_learn==1.0.1
 tqdm==4.52.0
 plotly==5.3.1
 pandas==1.2.4
